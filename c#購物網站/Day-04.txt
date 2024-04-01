@@ -1,0 +1,39 @@
+再來要裝資料庫，我們使用Entity Framework Core (EF Core) 這個微軟提供的資料庫框架
+另外還有像Dapper，NHibernate，ADO.NET之類的，各位有興趣可以自己去找找～
+
+雖然安裝套件Visual Studio有圖形介面，但我覺得這邊還是直接使用指令比較快，習慣使用圖形介面裝套件的上面的工具裡面，有個管理NuGet套件，一樣可以裝套件，這裡就不示範了～
+
+首先要先安裝 dotnet ef 的全域工具，才能使用dotnet ef的指令
+dotnet tool install --global dotnet-ef
+
+接著我們在現有的ASP.NET Core專案底下開啟 終端機 並執行以下指令用來安裝EF Core的nuget套件
+（要移動到專案檔案內，就是有Program.cs那層）
+dotnet add package Pomelo.EntityFrameworkCore.MySql (--version 指定的版本號碼)
+(資料庫的Provider，用來與相對性的資料庫溝通)
+
+dotnet add package Microsoft.EntityFrameworkCore.Design (--version 指定的版本號碼)
+(沒有安裝無法透過cli 使用資料庫產生實體)
+
+另外使用.net 7.0要在上面兩個指令後面都加上--version 7.0
+因為目前的最新版本是8.0，他會自動用8.0，然後.net 7.0不支援就報錯惹～
+（你問我為啥不用.net 8.0?我用的是mac沒有8.0給我選QQ）
+
+安裝完之後要透過以下指令來透過資料庫產生檔案，他會自動產生資料庫上下文檔案，在asp.net Core中就是要建立資料庫連線的核心檔案
+dotnet ef dbcontext scaffold "server=localhost;Port=3306;Database=aspnet;User=root;Password=root;" "Pomelo.EntityFrameworkCore.MySql" -o ./Models -c MyContext -f
+
+指令說明：
+dotnet ef dbcontext scaffold "<連線字串>" "<使用的資料庫提供者套件>" -o<是否要輸出在另外一個資料夾> <輸出的資料夾> -c <名稱Context> -f
+
+-o 與輸出資料夾沒有填的話，會在當前目錄產生檔案
+-c 與名稱Context沒有填的話，會以Database的名稱作為DbContext名稱
+-f 則是宣告要複寫原有檔案
+
+
+指令下完，在你的Ｍodel就會自動產出資料庫上下文檔案拉～
+現在看那個檔案又臭又長看不懂在寫啥東東對吧！
+我們明天就來重寫這個檔案～
+<img src="/imager/day04-1.png">
+
+
+
+
