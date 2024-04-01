@@ -1,0 +1,51 @@
+ASP.NET Core 是微软开发的一种跨平台开源的 Web 应用程序框架。它是 ASP.NET 的下一代版本，旨在提供更快速、更模块化、更轻量级的开发体验，并且能够在 Windows、Linux 和 macOS 等多个操作系统上运行。
+
+ASP.NET Core 的出现源于对传统 ASP.NET 框架的改进和演进。在 ASP.NET Core 中，微软对框架进行了许多重大的变化和改进，其中一些主要特点包括：
+
+跨平台支持： ASP.NET Core 是跨平台的，可以在 Windows、Linux 和 macOS 上运行，使得开发者可以选择最适合自己的操作系统进行开发。
+
+模块化和轻量级： ASP.NET Core 框架被设计为模块化和轻量级，开发者可以根据项目的需求选择使用的功能组件，而不是一次性加载整个框架。
+
+高性能： ASP.NET Core 具有更高的性能和更好的可伸缩性，能够处理更多的请求并且响应更快。
+
+开源： ASP.NET Core 是开源的，托管在 GitHub 上，并且接受社区的贡献和反馈。
+
+新的工具链： ASP.NET Core 引入了全新的开发工具链，包括 .NET Core CLI 和 Visual Studio Code 等，使得开发更加简单和灵活。
+
+ASP.NET Core 是通过对 .NET 平台的演进而来的。它基于 .NET Core，这是一个开源的、跨平台的 .NET 平台实现。与传统的 ASP.NET 框架相比，ASP.NET Core 更加灵活、更具现代化，并且在不同平台上的性能和可部署性都得到了显著的提升。
+
+以上簡介由ChatGpT提供，各位看看就好，不用太在意～
+
+～～～以下開使正文～～～
+要寫ASP.NET Core當然是用Visual Studio，當然你要用VsCode也是可以，不過會比較麻煩，要另外找套件來裝，這裡為了省麻煩直接用Visual Studio Code
+
+Visual Studio Code 2022下載網址:https://visualstudio.microsoft.com/zh-hant/
+
+基本上不用特別選，直接下一步到底，該安裝的微軟都會幫你裝好
+
+<img src="/imager/day02-1.png">
+
+現在的2022版本都有中文版了，想當初我用2017版還只能看英文QQ
+再來就是新增一個專案出來，Visual Studio有幾個範本，這次使用的是MVC的做法（主要是我懶得用前後端分離，還要另外寫Vue好麻煩～）
+
+所以呢專案選Web應用程式（模型-檢視-控制器）
+<img src="/imager/day02-2.png">
+決定好名字和存放位置Visual Studio就會自動幫你建好拉
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

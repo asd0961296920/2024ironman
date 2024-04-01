@@ -1,0 +1,29 @@
+Asp.Net Core MVC檔案架構：
+
+- Controllers/               // 控制器文件夹，包含 MVC 控制器
+    - HomeController.cs      // 示例控制器
+- Models/                    // 模型文件夹，包含 MVC 模型
+    - Product.cs             // 示例模型类
+- Views/                     // 視圖文件夹，包含 MVC 视圖
+    - Home/                  // 控制器對應的視圖文件夹
+        - Index.cshtml       // 示例視圖
+    - Shared/                // 共享視圖文件夹
+        - _Layout.cshtml     // 示例布局視圖
+- wwwroot/                   // 静態文件夹，包含前端資源如 CSS、JavaScript、圖片等
+    - css/
+    - js/
+    - images/
+- appsettings.json           // 應用程式配置文件
+- Program.cs                 // 程式入口文件
+- YourApplication.csproj     // 項目文件，包含項目的配置信息
+
+
+
+一開始Visual Studio預設建好大概會長這樣子，每個版本可能會有少許的不一樣，這是Net 7.0版本的
+
+另外.csproj在Visual Studio的操作頁面是默認隱藏，他是專案的管理檔案，大家平常是看不到的，一般來說也不需要去動它，大家無視掉就好～
+
+
+
+
+
