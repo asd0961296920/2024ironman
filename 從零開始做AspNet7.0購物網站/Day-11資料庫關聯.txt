@@ -1,0 +1,68 @@
+接下來要設置資料庫關聯
+
+<h3>一對一關聯</h3>
+假設一張User表的model長這樣
+public partial class User
+{
+    public int Id { get; set; }
+
+    public string? name { get; set; }
+
+    public string password { get; set; }
+
+    public int adress_id { get; set; }
+    public Adress Adress { get; set; }
+
+}
+還有一張Adress表長這樣
+public partial class Adress
+{
+    public int Id { get; set; }
+
+    public string? name { get; set; }
+
+    public User User { get; set; }
+
+}
+
+然後資料庫上下文的OnModelCreating方法就要新增一段
+modelBuilder.Entity<User>()
+    .HasOne(p => p.Adress)
+    .WithOne(pc => pc.User)
+    .HasForeignKey<User>(p => p.adress_id);
+
+這樣子就是一個一對一連接，由User的adress_id欄位對應Adress表的id欄位
+
+
+<h3>一對多關聯</h3>
+
+
+User表的model
+public partial class User
+{
+    public int Id { get; set; }
+
+    public string? name { get; set; }
+
+    public string password { get; set; }
+
+    public int adress_id { get; set; }
+    public ICollection<Adress> Adress { get; set; }
+
+}
+Adress表的Model
+public partial class Adress
+{
+    public int Id { get; set; }
+
+    public string? name { get; set; }
+
+    public User User { get; set; }
+
+}
+
+然後資料庫上下文的OnModelCreating方法就要新增一段
+modelBuilder.Entity<User>()
+    .HasMany(p => p.Adress)
+    .WithOne(pc => pc.User)
+    .HasForeignKey(p => p.adress_id);

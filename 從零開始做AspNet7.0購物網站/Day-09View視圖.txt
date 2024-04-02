@@ -1,0 +1,56 @@
+<h3>視圖（View）介紹</h3>
+前端頁面通常指的是視圖。在 MVC 架構中，由控制器來決定要回傳哪個視圖，根據控制器回傳的視圖路由，對應的頁面就會呈現相應的視圖內容。此外，控制器也可以回傳 JSON 格式的資料，不過這樣子就是前後端分離的做法了，這裡暫且不提。
+
+基本上Asp.Net Core Mvc的view寫法跟一般的html，css，js差不太多，只是有些特有的語法
+
+
+<h3>佈局檔案</h3>
+
+View資料夾內會有一個_Layout.cshtml檔案
+這個檔案是共用版面頁面。在這個檔案中，你可以定義整個應用程式中共用的 HTML 結構、CSS、JavaScript 和其他資源。
+簡單來說，其他視圖可以插入到這個版面中，使得整個應用程式保持一致的外觀風格，像標題、導覽列、側邊欄和頁腳這些每一頁都一樣的東西慣例來說都會寫在這裡
+
+
+
+<h3>內頁檔案</h3>
+下面是一開始新增專案會給的範例
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <h2 class="display-4">@ViewBag.post.Name</h2>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+
+html的部分就跳過不說了主要說一些特別的寫法
+
+這個是設置頁面標題：
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+如果要換佈局檔案（Layout）
+@{
+    Layout = "~/Views/Admin/_Layout.cshtml";
+}
+不需要使用佈局檔案的話只要把Layout這個變數改成null就行了
+
+
+
+<h3>在View使用計算語法</h3>
+基本上要在前端的View使用像for，if，while之類的語法或者變數，只要在前面加個＠符號就可以使用
+
+<h3>在View使用Js語法</h3>
+
+asp.net core要用Js會比較特別，要加下面：
+@section Scripts {
+
+
+    <script>
+    
+    </script>
+}
+
+然後js寫在script標籤裡就行了

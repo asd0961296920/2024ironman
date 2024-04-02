@@ -1,0 +1,28 @@
+還記得我們之前一開始建的User表嗎
+
+using System;
+namespace Models
+{
+    public partial class User
+    {
+        public int Id { get; set; }
+
+        public string name { get; set; }
+
+        public string password { get; set; }
+
+
+    }
+}
+
+他會長上面這樣
+這個只是之前示範用，現在我們來加上一些欄位和功能
+
+<h3>自動設定建立日期</h3>
+[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+public DateTime CreatedAt { get; set; }
+
+
+<h3>允許欄位是null</h3>
+只要在型別後面加上？就可以將這個欄位設為null
+public string? name { get; set; }
