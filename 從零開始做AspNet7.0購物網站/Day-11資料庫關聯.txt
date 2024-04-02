@@ -66,3 +66,56 @@ modelBuilder.Entity<User>()
     .HasMany(p => p.Adress)
     .WithOne(pc => pc.User)
     .HasForeignKey(p => p.adress_id);
+
+
+
+<h3>多對多關聯</h3>
+User表的model
+public partial class User
+{
+    public int Id { get; set; }
+
+    public string? Name { get; set; }
+
+    public string Password { get; set; }
+
+    public ICollection<UserAddress> UserAddresses { get; set; }
+}
+
+Adress表的Model
+public partial class Address
+{
+    public int Id { get; set; }
+
+    public string? Name { get; set; }
+
+    public ICollection<UserAddress> UserAddresses { get; set; }
+}
+
+多對多關聯需要一張中間表，所以我們新增一張中間表UserAddress
+public class UserAddress
+{
+    public int UserId { get; set; }
+    public User User { get; set; }
+
+    public int AddressId { get; set; }
+    public Address Address { get; set; }
+}
+
+
+然後資料庫上下文要設定三個
+modelBuilder.Entity<UserAddress>()
+    .HasKey(ua => new { ua.UserId, ua.AddressId });
+
+modelBuilder.Entity<UserAddress>()
+    .HasOne(ua => ua.User)
+    .WithMany(u => u.UserAddresses)
+    .HasForeignKey(ua => ua.UserId);
+
+modelBuilder.Entity<UserAddress>()
+    .HasOne(ua => ua.Address)
+    .WithMany(a => a.UserAddresses)
+    .HasForeignKey(ua => ua.AddressId);
+
+
+上面的資料庫關聯設定好之後，記得在下一次前面用過的新增資料庫遷移檔案和更新資料庫的指令，把資料庫更新喔！

@@ -1,0 +1,40 @@
+Model設定好之後，就可以開始正式寫功能拉！
+今天來介紹可以通過Model對資料庫進行操作
+
+<h3>使用EF Core 進行資料庫存取</h3>
+
+基礎操作 新增資料
+
+var user = new User {
+ name = "",
+ password = 0
+};
+
+_db.User.Add(user);
+_db.SaveChanges();
+
+
+基礎操作 查詢單筆資料
+var id = 1;
+var user = _db.User.Find(id);
+var user = _db.User.Where(p ⇒ p.password > 10).OrderBy(p ⇒ p.id)
+
+基礎操作 更新資料
+var user = _db.User.Find(1);
+user.name = "林雅婷";
+_db.SaveChanges();
+
+
+基礎操作 刪除資料
+var user = db.User.Find(1);
+db.User.Remove(user);
+db.SaveChanges();
+
+進階操作 查詢關聯資料
+var id = 1;
+var user = _db.User.Include(p => p.Adress).Find(id);
+
+進階操作 查詢多筆資料並關聯
+var user =   _db.User
+                .Include(p => p.Adress)
+                .Where(p ⇒ p.password > 10).ToList();
