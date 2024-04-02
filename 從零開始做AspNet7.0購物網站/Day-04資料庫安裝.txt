@@ -1,4 +1,8 @@
+Entity Framework Core 基本介紹
+
 再來要裝資料庫，我們使用Entity Framework Core (EF Core) 這個微軟提供的資料庫框架
+Entity Framework 是一個 ORM(Object Relational Mapping)框架，可以大幅減少開發時期大量的撰寫資料庫語法進行資料存取，並且能透過強型別來取得與操作物件資料。
+
 另外還有像Dapper，NHibernate，ADO.NET之類的，各位有興趣可以自己去找找～
 
 雖然安裝套件Visual Studio有圖形介面，但我覺得這邊還是直接使用指令比較快，習慣使用圖形介面裝套件的上面的工具裡面，有個管理NuGet套件，一樣可以裝套件，這裡就不示範了～
@@ -28,10 +32,20 @@ dotnet ef dbcontext scaffold "<連線字串>" "<使用的資料庫提供者套�
 -c 與名稱Context沒有填的話，會以Database的名稱作為DbContext名稱
 -f 則是宣告要複寫原有檔案
 
-
 指令下完，在你的Ｍodel就會自動產出資料庫上下文檔案拉～
-現在看那個檔案又臭又長看不懂在寫啥東東對吧！
-我們明天就來重寫這個檔案～
+
+<h3>在啟動檔案中連接資料庫上下文檔案</h3>
+
+最後在開始檔案Program.cs檔案內
+這一段
+var builder = WebApplication.CreateBuilder(args);
+的後面加上
+builder.Services.AddDbContext<MyContext>();
+（沒加的話你的網站啟動不會連到資料庫喔！）
+
+
+
+然後我們明天就來重寫資料庫上下文檔案～
 <img src="/imager/day04-1.png">
 
 

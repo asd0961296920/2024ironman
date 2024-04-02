@@ -1,0 +1,131 @@
+<h3>資料庫上下文是什麼？</h3>
+
+資料庫上下文是一個在應用程式和資料庫之間充當中介的對象。 它通常用於管理與資料庫的交互，包括連接管理、資料查詢和持久化等任務。 在許多 ORM（物件關聯映射）框架中，資料庫上下文負責映射應用程式中的物件模型到資料庫中的表結構，並執行資料庫操作。
+
+在 Entity Framework Core（EF Core）中，資料庫上下文由 DbContext 類別表示。 DbContext 包含一個或多個 DbSet 屬性，每個屬性代表了一個實體集合，它們對應於資料庫中的表。 DbContext 還提供了一系列方法，用於執行查詢、新增、更新和刪除操作，以及管理資料庫連接和事務。
+
+
+
+接著昨天我們指令下完之後，出現的Context檔案會長這樣
+
+
+using System;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+
+namespace mm4.Models;
+
+public partial class MyContext : DbContext
+{
+    public MyContext()
+    {
+    }
+
+    public MyContext(DbContextOptions<MyContext> options)
+        : base(options)
+    {
+    }
+
+    public virtual DbSet<Order> Orders { get; set; }
+
+    public virtual DbSet<User> Users { get; set; }
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        if (!optionsBuilder.IsConfigured)
+        {
+            IConfigurationRoot configuration = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json")
+                .Build();
+
+            optionsBuilder.UseMySql("server=localhost;port=3306;database=aspnet;user=root;password=root", ServerVersion.Parse("10.4.29-mariadb"));
+        }
+    }
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder
+            .UseCollation("utf8mb4_unicode_ci")
+            .HasCharSet("utf8mb4");
+
+        modelBuilder.Entity<Order>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("order");
+
+            entity.Property(e => e.Id)
+                .ValueGeneratedNever()
+                .HasColumnType("int(11)")
+                .HasColumnName("id");
+            entity.Property(e => e.Name)
+                .HasMaxLength(255)
+                .HasColumnName("name");
+        });
+
+        modelBuilder.Entity<User>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("user");
+
+            entity.Property(e => e.Id)
+                .ValueGeneratedNever()
+                .HasColumnType("int(11)")
+                .HasColumnName("id");
+            entity.Property(e => e.Name)
+                .HasMaxLength(255)
+                .HasColumnName("name");
+            entity.Property(e => e.Password)
+                .HasMaxLength(255)
+                .HasColumnName("password");
+        });
+
+        OnModelCreatingPartial(modelBuilder);
+    }
+
+    partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+}
+
+
+
+這個class使用partial，所以可以拆開放在不同檔案中寫方法，至於什麼是partial我們之後再講～
+
+<h3>宣告資料庫</h3>
+
+各位可以看到
+ public virtual DbSet<Order> Orders { get; set; }
+這一行就是將Model宣告進資料庫，只有在資料庫上下文中寫上這一行，之後建立資料庫遷移才會新增這張表上去，沒有加的話他在Asp.Net Core裡面就只是個普通Model，不會跟資料庫連結
+
+
+<h3>資料庫連線</h3>
+OnConfiguring就是真正連接資料庫的地方拉～
+
+optionsBuilder.UseMySql("server=localhost;port=3306;database=aspnet;user=root;password=root", ServerVersion.Parse("10.4.29-mariadb"));
+
+這一行就是你的資料庫連接資訊，不過通過指令生成的他的連線資訊會寫死在Context檔案裡面，我們需要把它移到外面的appsettings設定檔中去
+
+OnConfiguring方法改成這樣：
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        if (!optionsBuilder.IsConfigured)
+        {
+            IConfigurationRoot configuration = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json")
+                .Build();
+
+            string connectionString = configuration.GetConnectionString("DefaultConnection");
+            optionsBuilder.UseMySql(connectionString, ServerVersion.Parse("10.4.29-mariadb"));
+        }
+    }
+
+然後在appsettings.json檔案增加：
+  "ConnectionStrings": {
+    "DefaultConnection": "server=localhost;port=3306;database=aspnet;user=root;password=root"
+  }
+
+
+<h3>資料庫關聯</h3>
+OnModelCreating方法就是之後要設資料庫關聯和資料庫的欄位設定的地方，這裡先帶過之後講關聯資料表再回來

@@ -1,0 +1,35 @@
+建立資料庫遷移
+
+Asp.Net Core的資料庫遷移很簡單，只要使用class建立一個物件，然後把這個物件在剛剛建立的資料庫上下文中做宣告就行
+
+首先建立一個物件，物件裡面宣告你資料表需要的欄位
+using System;
+using System.Collections.Generic;
+
+namespace mm4.Models;
+
+public partial class User
+{
+    public int Id { get; set; }
+
+    public string? Name { get; set; }
+
+    public string? Password { get; set; }
+}
+然後在資料庫上下文中宣告他
+public virtual DbSet<User> User { get; set; }
+如果沒有做一對一，多對多之類的關聯的話上下文中的OnModelCreating方法其實不用特別設定，Asp.Net Core都會自動用預設
+
+然後下指令～
+
+先下
+dotnet ef migrations add InitialCreate
+生成遷移檔案
+
+dotnet ef database update
+執行資料庫遷移
+
+兩個指令下完，你的專案內會出現Migrations資料夾
+然後會有對應的遷移檔案，這些檔案都是自動產生的，不需要去動它～
+如果你的連線沒有問題，現在你的資料庫中已經有資料表了～
+
