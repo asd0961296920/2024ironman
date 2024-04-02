@@ -1,0 +1,78 @@
+Asp.Net Core控制器
+
+控制器，也就是controller資料夾裡面的檔案，這會是你後端主要程式邏輯的地方
+一開始用Visual Studio自動生成出來的會長這樣
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+
+
+namespace mm4
+{
+    public class HomesController : Controller
+    {
+        // GET: /<controller>/
+        public IActionResult Index()
+        {
+            return View();
+        }
+    }
+}
+
+因為大部分的操作都需要從資料庫撈資料，所以一開始我們需要把資料庫上下文引用過來，才能使用資料庫的功能
+在class裡面加上：
+    private readonly ILogger<HomeController> _logger;
+    private readonly MyContext _db;
+    private readonly IConfiguration _configuration;
+
+    public HomeController(ILogger<HomeController> logger, MyContext dbContext, IConfiguration configuration)
+    {
+        _logger = logger;
+        _db = dbContext;
+        _configuration = configuration;
+    }
+
+順帶說明一下_configuration是引用設定檔案，如果程式需要拉取設定檔案的資料也可以一起引用過來
+這個檔案整體就會變成這樣：
+
+using System.Diagnostics;
+using Microsoft.AspNetCore.Mvc;
+using mm4.Models;
+
+namespace mm4.Controllers;
+
+public class HomeController : Controller
+{
+    private readonly ILogger<HomeController> _logger;
+    private readonly MyContext _db;
+    private readonly IConfiguration _configuration;
+
+    public HomeController(ILogger<HomeController> logger, MyContext dbContext, IConfiguration configuration)
+    {
+        _logger = logger;
+        _db = dbContext;
+        _configuration = configuration;
+    }
+
+    public IActionResult Index()
+    {
+        return View();
+    }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

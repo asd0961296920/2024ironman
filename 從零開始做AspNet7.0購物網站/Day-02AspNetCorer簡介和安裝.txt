@@ -16,7 +16,7 @@ ASP.NET Core 是通过对 .NET 平台的演进而来的。它基于 .NET Core，
 
 以上簡介由ChatGpT提供，各位看看就好，不用太在意～
 
-～～～以下開使正文～～～
+～～～以下開始正文～～～
 要寫ASP.NET Core當然是用Visual Studio，當然你要用VsCode也是可以，不過會比較麻煩，要另外找套件來裝，這裡為了省麻煩直接用Visual Studio Code
 
 Visual Studio Code 2022下載網址:https://visualstudio.microsoft.com/zh-hant/
