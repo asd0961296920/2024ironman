@@ -1,0 +1,33 @@
+介紹完了基本資料，那就來開始正式串接囉～
+
+首先測試串接網址：https://vendor-stage.ecpay.com.tw/
+
+
+● 然後我們來看他的欄位說明：
+https://developers.ecpay.com.tw/?p=2864
+
+轉成json格式大概就是長這樣
+{
+    "CheckMacValue": "D0DA0F90A5332C599C2E0BDC587D3381B0C198F246C8456E5CD3CEB46724464B",
+    "ChoosePayment": "Credit",
+    "EncryptType": 1,
+    "MerchantID": 3002607,
+    "MerchantTradeDate": "2024/04/03 15: 11: 54",
+    "MerchantTradeNo": 000076001712128314,
+    "PaymentType": "aio",
+    "TotalAmount": 600,
+    "TradeDesc": "shopping",
+    "ItemName": "shopping",
+    "ReturnURL": "https: //www.google.com "
+}
+不過因為綠界是要求application/x-www-form-urlencoded，所以最後會轉格式，上面的json格式只是讓大家方便理解～
+
+其他沒什麼好說的，大家按照欄位說明填就是了，最重要的就是CheckMacValue這個檢查碼欄位
+這個欄位會要求按照綠界的流程，把你要送去綠界的資料加密成一串檢查碼，然後綠界會去檢查這串密碼跟輸入的欄位資料有沒有一樣
+
+● 綠界全方位金流檢查碼機制：
+https://developers.ecpay.com.tw/?p=2902
+
+
+
+

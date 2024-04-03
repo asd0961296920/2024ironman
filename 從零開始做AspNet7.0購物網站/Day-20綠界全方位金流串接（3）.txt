@@ -1,0 +1,73 @@
+按照綠界的檢查碼機制，我們要用程式來生成檢查碼
+
+第一步的欄位排列，綠界已經示範給我們看了，就把裡面的數值替代就好
+string input = "HashKey="+ appSettings["HashKey"] + "&ChoosePayment=Credit&EncryptType=1&ItemName=" + ItemName +"&MerchantID="+ appSettings["MerchantID"] + "&MerchantTradeDate="+ formattedDateTime + "&MerchantTradeNo="+ MerchantTradeNo + "&PaymentType=aio&ReturnURL="+ appSettings["ReturnURL"]+ "&TotalAmount="+ TotalAmount+ "&TradeDesc=" + TradeDesc + "&HashIV=" + appSettings["HashIV"];
+
+
+然後另外建立一個方法，這個方法是為了進行URL encode替換，綠界要求使用.NET URLEncode 結果，所以要按照他們的轉換表重新寫一個程式
+
+public static string CheckMacValue(string data)
+{
+    string replacedString = data.Replace("%", "%25");
+
+    replacedString = replacedString.Replace("~", "%7e");
+    replacedString = replacedString.Replace("+", "%2b");
+    replacedString = replacedString.Replace(" ", "+");
+    replacedString = replacedString.Replace("@", "%40");
+    replacedString = replacedString.Replace("#", "%23");
+    replacedString = replacedString.Replace("$", "%24");
+    replacedString = replacedString.Replace("&", "%26");
+    replacedString = replacedString.Replace("=", "%3d");
+    replacedString = replacedString.Replace(";", "%3b");
+    replacedString = replacedString.Replace("?", "%3f");
+
+    replacedString = replacedString.Replace("/", "%2f");
+    replacedString = replacedString.Replace("\\", "%5c");
+    replacedString = replacedString.Replace(">", "%3e");
+    replacedString = replacedString.Replace("<", "%3c");
+    replacedString = replacedString.Replace("`", "%60");
+    replacedString = replacedString.Replace("[", "%5b");
+    replacedString = replacedString.Replace("]", "%5d");
+    replacedString = replacedString.Replace("{", "%7b");
+    replacedString = replacedString.Replace("}", "%7d");
+    replacedString = replacedString.Replace(":", "%3a");
+
+    replacedString = replacedString.Replace("'", "%27");
+    replacedString = replacedString.Replace("\"", "%22");
+    replacedString = replacedString.Replace(",", "%2c");
+    replacedString = replacedString.Replace("|", "%7c");
+
+
+    //轉小寫
+    replacedString = replacedString.ToLower();
+
+    replacedString = CalculateSHA256(replacedString);
+
+    return replacedString;
+}
+
+● urlencode轉換表：
+https://developers.ecpay.com.tw/?p=2904
+
+接著要使用之前介紹過的SHA256加密來產生雜凑值
+因為Asp.Net Core也沒有內建SHA256加密的方法供我們使用，所以還是自己寫一個方法：
+public static string CalculateSHA256(string input)
+{
+    using (SHA256 sha256 = SHA256.Create())
+    {
+        byte[] hashBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(input));
+        StringBuilder builder = new StringBuilder();
+
+        for (int i = 0; i < hashBytes.Length; i++)
+        {
+            builder.Append(hashBytes[i].ToString("X2")); // 将每个字节转换为两位的十六进制字符串
+        }
+
+        return builder.ToString();
+    }
+}
+
+
+
+
+
