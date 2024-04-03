@@ -35,4 +35,6 @@ if (imageFile != null && imageFile.Length > 0)
 "data:image/jpeg;base64,"
 來標示這個是圖片，img標籤才能識別
 
-
+另外這個網站
+https://www.toolnb.com/tools-lang-zh-TW/ImageToBase64.html
+可以測試把圖片變成Base64二進制
