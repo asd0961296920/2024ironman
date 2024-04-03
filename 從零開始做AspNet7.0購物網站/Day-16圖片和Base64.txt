@@ -1,0 +1,38 @@
+這次的購物網站中的圖片，我們會直接存在資料庫而不是存在檔案中
+要存在資料庫就要先介紹Base64
+
+<h3>Base64是什麼？</h3>
+Base64 是一種將二進位數據轉換為 ASCII 字符串的編碼方法。它將每 6 位二進制數據映射到一個可打印的 ASCII 字符，總共有 64 個字符，因此稱為 Base64。
+
+Base64 編碼常用於將二進位數據嵌入到文本環境中，比如在 XML、HTML、JSON 等文檔中嵌入圖片、音頻、視頻等二進位數據。它也常用於將二進位數據進行安全的傳輸，因為 Base64 編碼後的數據只包含 ASCII 字符，可以避免在一些環境中出現特殊字符而引起的問題。
+
+簡單來說轉成Base64格式之後就可以把圖片，影片，文件等等變成字串格式，然後塞到資料庫裡面
+轉成Base64之後會是一串人類看不懂的亂碼，但以圖片來說，也不用特別解碼，因為html使用img屬性，當瀏覽器解析這個 img 標籤時，就會自動解析 Base64 字符串，並顯示圖片。
+
+
+將圖片轉為Base64程式碼：
+
+// 從表單中獲取圖片文件
+var imageFile = form.Files["imager"];
+
+if (imageFile != null && imageFile.Length > 0)
+{
+    // 將圖片文件轉換為 base64 字符串
+    using (var memoryStream = new MemoryStream())
+    {
+        image = "data:image/jpeg;base64,";
+        await imageFile.CopyToAsync(memoryStream);
+        var imageDataBytes = memoryStream.ToArray();
+        image += Convert.ToBase64String(imageDataBytes);
+
+        // 現在您可以將 base64 字符串保存到資料庫中，或者進行其他處理
+
+
+    }
+}
+
+圖片轉換出來的Base64二進制，前面還要加上
+"data:image/jpeg;base64,"
+來標示這個是圖片，img標籤才能識別
+
+

@@ -17,17 +17,20 @@ namespace Models
 }
 
 然後在資料庫上下文中新增一段
+Context.cs
 public virtual DbSet<User> User { get; set; }
 
 
 
 然後在控制器設一個進入註冊頁面的方法
+LoginController.cs
 public IActionResult Register()
 {
     return View();
 }
 
 然後寫一個註冊表單
+Register.cshtml
 <form action="/Login/RegisterPost" method="post">
     <div class="row mb-3">
         <label for="colFormLabel" class="col-sm-2 col-form-label">建立帳號：</label>
@@ -50,6 +53,8 @@ public IActionResult Register()
 
 
 在控制器寫一個輸入表單後要執行的邏輯，就是把表單的內容新增到資料庫中
+LoginController.cs
+
 [HttpPost]
 public IActionResult RegisterPost()
 {

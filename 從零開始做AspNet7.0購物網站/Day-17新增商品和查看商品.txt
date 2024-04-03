@@ -1,0 +1,126 @@
+這邊就是把前面說過的，整合到一起，做出前台的商品列表，和後台能新增商品
+商品列表就是把資料庫中的數據查出來，然後放到前端，這部分就不特別寫了
+
+先新增一個商品的Model
+Product.cs
+using System;
+using TextContext;
+using Microsoft.EntityFrameworkCore;
+namespace Models
+{
+    public partial class Product
+    {
+        public int Id { get; set; }
+
+        public string? name { get; set; }
+
+        public int price { get; set; }
+
+        public string? imager { get; set; }
+
+        public string? remarks { get; set; }
+
+        public int number { get; set; }
+
+    }
+}
+
+在資料庫上下文中註冊
+Context.cs
+public virtual DbSet<Product> Product { get; set; }
+
+新增商品的前端表單
+AddProduct.cshtml
+<form action="/Admin/PostProduct" method="post" enctype="multipart/form-data">
+
+    <div class="row mb-3">
+        <label for="colFormLabel" class="col-sm-2 col-form-label">商品名稱：</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" id="name" name="name" placeholder="請輸入名稱">
+        </div>
+    </div>
+    <div class="row mb-3">
+        <label for="colFormLabel" class="col-sm-2 col-form-label">商品價格：</label>
+        <div class="col-sm-10">
+            <input type="number" class="form-control" id="price" name="price" placeholder="請輸入價格">
+        </div>
+    </div>
+    <div class="row mb-3">
+        <label for="colFormLabel" class="col-sm-2 col-form-label">商品說明：</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" id="remarks" name="remarks" placeholder="請輸入說明">
+        </div>
+    </div>
+    <div class="row mb-3">
+        <label for="colFormLabel" class="col-sm-2 col-form-label">分類名稱：</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" id="product_class" name="product_class" placeholder="請輸入分類">
+        </div>
+    </div>
+    <div class="row mb-3">
+        <label for="colFormLabel" class="col-sm-2 col-form-label">圖片：</label>
+        <div class="col-sm-10">
+            <input type="file" class="form-control custom-file-input" id="imager" name="imager" accept="image/*">
+        </div>
+    </div>
+
+輸入表單後要執行的邏輯
+AdminController.cs
+[HttpPost]
+public async Task<IActionResult> PostProduct(IFormCollection form)
+{
+
+    string cookieValue = Request.Cookies["AdminVerify"];
+    string name = form["name"];
+    string remarks = form["remarks"];
+    int price = int.Parse(form["price"]);
+    string product_class_name = form["product_class"];
+    string image = "data:image/jpeg;base64,";
+
+    int product_class_id = 1;
+    var product_class = _db.ProductClass.FirstOrDefault(u => u.class_name == product_class_name);
+    if (product_class == null)
+    {
+        var ProductClass = new ProductClass
+        {
+            class_name = product_class_name,
+        };
+
+        _db.ProductClass.Add(ProductClass);
+        _db.SaveChanges();
+        product_class_id = ProductClass.Id;
+    }
+    else
+    {
+        product_class_id = product_class.Id;
+    }
+    // 從表單中獲取圖片文件
+    var imageFile = form.Files["imager"];
+
+    if (imageFile != null && imageFile.Length > 0)
+    {
+        // 將圖片文件轉換為 base64 字符串
+        using (var memoryStream = new MemoryStream())
+        {
+            await imageFile.CopyToAsync(memoryStream);
+            var imageDataBytes = memoryStream.ToArray();
+            image += Convert.ToBase64String(imageDataBytes);
+        }
+    }
+    var product = new Product
+    {
+        name = name,
+        price = price,
+        imager = image,
+        remarks = remarks,
+        product_class_id = product_class_id,
+        manufacturer_id = int.Parse(Request.Cookies["AdminVerify"])
+
+    };
+
+    _db.Product.Add(product);
+    _db.SaveChanges();
+
+    return RedirectToAction("succ", "Admin");
+}
+
