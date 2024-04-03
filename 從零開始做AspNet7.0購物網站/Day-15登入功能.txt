@@ -1,0 +1,97 @@
+接下來就來具體實作登入功能拉
+
+
+然後控制器設一個進入登入頁面的方法
+這裡多做了如果已經登入就會直接跳到首頁的判斷～
+    public IActionResult UserLogin()
+    {
+
+        // 获取名为"CookieName"的Cookie的值
+        string cookieValue = Request.Cookies["UserVerify"];
+
+        // 如果Cookie存在
+        if (cookieValue != null)
+        {
+            return RedirectToAction("Index", "Home");
+        }
+
+
+        ViewBag.ProductClass = _db.ProductClass.ToList();
+        return View();
+    }
+
+
+
+然後寫一個前端登入頁面，這裡直接用bootstrap5弄現成的
+<form action="/Login/UserLoginVerify" method="post">
+    <div class="row mb-3">
+        <label for="colFormLabel" class="col-sm-2 col-form-label">帳號：</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" id="name" name="name" placeholder="請輸入帳號">
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <label for="colFormLabel" class="col-sm-2 col-form-label">密碼：</label>
+        <div class="col-sm-10">
+            <input type="password" class="form-control" id="password" name="password" placeholder="請輸入密碼">
+        </div>
+    </div>
+    <div class="d-grid gap-2 col-6 mx-auto">
+        <button class="btn btn-outline-primary" type="submit">登入</button>
+        <a class="btn btn-outline-primary" type="button" href="@Url.Action("Register", "Login")">註冊</a>
+    </div>
+
+</form>
+
+
+然後在控制器寫一個輸入表單後要執行的邏輯
+[HttpPost]
+public IActionResult UserLoginVerify()
+{
+
+
+
+    string name = Request.Form["name"];
+    string password = Request.Form["password"];
+    var md5 = this.ComputeMD5Hash(name + password);
+
+    password = this.ComputeMD5Hash(password);
+    User verify = _db.User.FirstOrDefault(u => u.name == name);
+
+    if (verify != null && verify?.password == password)
+    {
+        //設置cookies
+        HttpContext.Response.Cookies.Append("UserVerify", verify.Id.ToString(), new CookieOptions
+        {
+            Expires = DateTime.UtcNow.AddDays(7),
+            HttpOnly = true,
+            Secure = true,
+            SameSite = SameSiteMode.Strict
+        });
+        //設置cookies
+        HttpContext.Response.Cookies.Append("UserName", name, new CookieOptions
+        {
+            Expires = DateTime.UtcNow.AddDays(7),
+            HttpOnly = true,
+            Secure = true,
+            SameSite = SameSiteMode.Strict
+        });
+        return RedirectToAction("Index", "Home");
+    }
+    else
+    {
+        // 驗證失敗，重新導向到登入頁面並顯示錯誤訊息
+        TempData["ErrorMessage"] = "登入失敗，請檢查您的帳號和密碼。";
+        return RedirectToAction("UserLogin", "Login");
+    }
+
+
+    
+}
+這邊使用cookies是不是空的來作為登入判斷，另外在cookies存入會員id，方便之後操作的時候做調用
+然後把輸入的密碼以Md5加密後比對資料庫中的密碼
+另外
+[HttpPost]
+是表示這個方法要用post才能調用，如果沒有寫這一段會自動認為是get
+

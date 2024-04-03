@@ -1,0 +1,80 @@
+加密的原理和方法講完了，就來具體實作登入功能拉
+不過那在那之前，要先寫註冊，不然沒有帳號可以登入
+
+首先先建一張會員資料表User.cs
+using System;
+namespace Models
+{
+    public partial class User
+    {
+        public int Id { get; set; }
+
+        public string? name { get; set; }
+
+        public string password { get; set; }
+
+    }
+}
+
+然後在資料庫上下文中新增一段
+public virtual DbSet<User> User { get; set; }
+
+
+
+然後在控制器設一個進入註冊頁面的方法
+public IActionResult Register()
+{
+    return View();
+}
+
+然後寫一個註冊表單
+<form action="/Login/RegisterPost" method="post">
+    <div class="row mb-3">
+        <label for="colFormLabel" class="col-sm-2 col-form-label">建立帳號：</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" id="name" name="name" placeholder="請輸入帳號">
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <label for="colFormLabel" class="col-sm-2 col-form-label">建立密碼：</label>
+        <div class="col-sm-10">
+            <input type="password" class="form-control" id="password" name="password" placeholder="請輸入密碼">
+        </div>
+    </div>
+    <div class="d-grid gap-2 col-6 mx-auto">
+        <button class="btn btn-outline-primary" type="submit">註冊</button>
+        <a class="btn btn-outline-primary" type="button" href="@Url.Action("UserLogin", "Login")">登入</a>
+    </div>
+</form>
+
+
+在控制器寫一個輸入表單後要執行的邏輯，就是把表單的內容新增到資料庫中
+[HttpPost]
+public IActionResult RegisterPost()
+{
+
+    string inputname = Request.Form["name"];
+    string password = Request.Form["password"];
+
+    if (inputname == null || password == null || inputname == "" || password == "")
+    {
+        TempData["ErrorMessage"] = "帳號和密碼不能為空。";
+        return RedirectToAction("Register", "Login");
+    }
+    password = this.ComputeMD5Hash(password);
+    var user = new User
+    {
+        name = inputname,
+        password = password,
+    };
+    _db.User.Add(user);
+    _db.SaveChanges();
+
+
+
+    return RedirectToAction("succ", "Login");
+
+}
+這邊使用的我們剛剛做的MD5加密方法ComputeMD5Hash，把加密後的密碼放到資料庫，之後要登入的時候把登入時輸入的密碼再次加密，然後和資料庫中的密碼比對
+這樣就是最簡單的登入加密功能
