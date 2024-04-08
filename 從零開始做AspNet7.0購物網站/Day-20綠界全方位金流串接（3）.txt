@@ -5,7 +5,11 @@ string input = "HashKey="+ appSettings["HashKey"] + "&ChoosePayment=Credit&Encry
 
 
 然後另外建立一個方法，這個方法是為了進行URL encode替換，綠界要求使用.NET URLEncode 結果，所以要按照他們的轉換表重新寫一個程式
+綠界提供的URL encode轉換表：
+https://developers.ecpay.com.tw/?p=2904
+綠界要求的是.NET URLEncode 結果這一列的轉換符號
 
+我們簡單寫一個轉換程式，主要用替代方法把存入的字串做替代
 public static string CheckMacValue(string data)
 {
     string replacedString = data.Replace("%", "%25");
