@@ -160,6 +160,7 @@ public async Task<IActionResult> Checkout()
 這裡在把資料送給綠界金流之前，會先在網站的資料庫為這筆訂單建檔，之後才會發給綠界金流
 
 
-
+成功之後綠界會發一個網頁讓使用者填自己的信用卡資料結帳
+<img src="/imager/day21-1.jpeg">
 
 

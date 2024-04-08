@@ -1,0 +1,42 @@
+控制器（Controller）將要顯示的資料傳給View頁面做排版，以MVC的做法來說，會有幾種方法，今天我們就來一一介紹給大家～
+
+1.ViewData 和 ViewBag：
+這兩個其實很類似，只是使用的方法不太一樣，這裡直接示範給大家
+
+● ViewData
+Controller：
+ViewData["Message"] = "這是從控制器傳遞給視圖的訊息";
+
+View：
+<p>@ViewData["Message"]</p>
+
+● ViewBag
+Controller：
+ViewBag.Message = "這是從控制器傳遞給視圖的訊息";
+
+View：
+<p>@ViewBag.Message</p>
+
+
+ViewBag和ViewData這兩個是asp.net core的預設變數，名稱是不能改的，只有後面的key是可以隨意取名
+
+
+2.TempData：
+
+TempData 是一個用於傳遞暫時資料的字典，它允許在控制器和視圖之間傳遞資料，並且在一次 HTTP 請求中有效。
+簡單來說，TempData傳遞的資料只會保存一次，下一次再使用同一個View的時後，TempData的資料會重新刷新～
+
+TempData的使用方式跟ViewData一樣
+
+● TempData
+
+Controller：
+TempData["Message"] = "這是從控制器傳遞給視圖的訊息";
+
+View：
+<p>@TempData["Message"]</p>
+
+
+
+
+

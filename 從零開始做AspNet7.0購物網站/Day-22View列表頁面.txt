@@ -1,0 +1,55 @@
+在Asp.Net Core MVC要做前端列表頁面，通常是控制器用ViewBag或TempData變數存一個陣列資料提供給前端調用
+當然還有很多其他的方式，但這裡就不一一解釋
+
+然後前端要使用這個陣列資料就要用for迴圈來做排版，而這個陣列本質上是json格式
+不過因為是使用ＭＶＣ的方式做傳輸，所以前端不會明確看到json格式的資料
+這裡還是給各位看看資料長什麼概念方便理解
+後端傳來的資料差不多會像這樣：
+[
+    {
+        "Id": 1,
+        "name": "\u82B1",
+        "price": 100,
+        "imager": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAoHCBYWFRgWFhYYGBgaGhwaGhwcGhgaGBgaGhgZGhgaGhgcIS4lHB4rIRgYJjgmKy8xNTU1HCQ7QDs0Py40NTEBDAwMEA8QHxISHzYrJSw3NDQxNDQ4NDY0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NP/AABEIALcBEwMBIgACEQEDEQH/xAAbAAACAgMBAAAAAAAAAAAAAAAEBQMGAAECB",
+        "remarks": "\u7F8E\u9E97\u7684\u82B1",
+        "number": 0,
+        "manufacturer_id": 1,
+        "product_class_id": 1,
+        "Manufacturer": null,
+        "ProductClass": null,
+        "Item": null
+    },
+    {
+        "Id": 2,
+        "name": "\u5957\u9910\u98EF\u985E",
+        "price": 500,
+        "imager": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAADyZMi6RZ//2Q==",
+        "remarks": "\u597D\u5403\u7684\u98EF",
+        "number": 0,
+        "manufacturer_id": 1,
+        "product_class_id": 2,
+        "Manufacturer": null,
+        "ProductClass": null,
+        "Item": null
+    }
+]
+
+前端列表頁面：
+@foreach (var item in ViewBag.Product)
+{
+    <div class="col">
+        <div class="card mt-5" style="width: 18rem;">
+            <img src="@item.imager" class="card-img-top">
+            <div class="card-body">
+                <h5 class="card-title">@item.name</h5>
+                <p class="card-text">@item.remarks</p>
+                <a href="/Product/Index/@item.Id" class="btn btn-primary">查看產品</a>
+            </div>
+        </div>
+    </div>
+}
+用一個for迴圈就可以把傳來的資料以列表的方式列出來
+
+
+
+
