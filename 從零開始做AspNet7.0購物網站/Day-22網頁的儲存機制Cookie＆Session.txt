@@ -1,0 +1,34 @@
+<h3>Cookie和Session是什麼?</h3>
+1.Cookie（HTTP Cookie）：
+Cookie是一小段存儲在用戶設備上的信息，通常由網站發送給瀏覽器並保存在用戶的計算機上。它包含了與網站相關的信息，例如用戶的設置、登錄狀態、購物車內容等。瀏覽器在後續訪問相同網站時，會將相應的Cookie信息發送給該網站，從而實現用戶狀態的保持和跟蹤。Cookie可以在瀏覽器端被修改、刪除或禁用，且有大小限制。
+
+2.Session：
+Session是一種在伺服器端存儲用戶信息的機制。每當用戶訪問網站時，伺服器都會為該用戶創建一個唯一的會話（session），並將相關信息存儲在伺服器上。用戶的會話ID通常存儲在Cookie中，從而使得瀏覽器在後續請求中能夠識別用戶的會話。相比於Cookie，Session在伺服器端進行管理，因此更安全，但也會佔用伺服器的資源。
+
+本次專案只會使用到Cookie來做用戶登入資訊的儲存～
+
+
+<h3>Cookie儲存使用方法</h3>
+
+設置cookies
+
+Controller：
+HttpContext.Response.Cookies.Append("UserVerify", verify.Id.ToString(), new CookieOptions
+{
+    Expires = DateTime.UtcNow.AddDays(7),
+    HttpOnly = true,
+    Secure = true,
+    SameSite = SameSiteMode.Strict
+});
+其中UserVerify就是Cookies的key值，verify.Id.ToString()就是vule
+Expires = DateTime.UtcNow.AddDays(7)指的是設置7天後過期
+
+
+取得Cookies
+string cookieValue = Request.Cookies["UserVerify"];
+
+清除Cookies
+Response.Cookies.Delete("UserVerify");
+字串中是Cookies的key值
+
+

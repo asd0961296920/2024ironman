@@ -1,11 +1,11 @@
 Visual Studio本身有內建一套除錯系統，讓你可以以介面化的方式更直觀的做下斷點的動作和查看變數內的資料
 程式碼旁邊紅圈圈起來的地方就是斷點，程式碼執行到這裡就會直接停止，不會往下執行
-<img src="/imager/day24-1.png">
+<img src="/imager/day04-1.png">
 
 
 程式開始執行後，可以通過本機查看各變數和class目前的狀態和數值
 因為我們是寫網頁，所以要在前端做相對應的操作後這裡的變數值也會跟著改變
-<img src="/imager/day24-2.png">
+<img src="/imager/day04-2.png">
 
 ● Console.WriteLine
 這個方法可以通過直接插入程式碼，讓終端機顯示變數的值來做除錯的動作，在某方面來說要比翻本機看變數要快
@@ -14,7 +14,7 @@ Visual Studio本身有內建一套除錯系統，讓你可以以介面化的方�
 Console.WriteLine("Hollo Word");
 
 輸出：
-<img src="/imager/day24-3.png">
+<img src="/imager/day04-3.png">
 
 
 

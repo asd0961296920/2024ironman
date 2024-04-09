@@ -19,7 +19,7 @@ https://vendor-stage.ecpay.com.tw/
 https://developers.ecpay.com.tw/?p=2856
 
 ● 這是綠界提供的流程圖：
-<img src="/imager/day18-1.png">
+<img src="/imager/day26-1.png">
 
 以流程圖來說，我們只要把資料給綠界提供的API，API會給一頁的html讓使用者填，之後結果綠界會在回傳給我們
 

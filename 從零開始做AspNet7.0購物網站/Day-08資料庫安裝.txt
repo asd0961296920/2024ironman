@@ -51,7 +51,7 @@ builder.Services.AddDbContext<MyContext>();
 
 
 然後我們明天就來重寫資料庫上下文檔案～
-<img src="/imager/day04-1.png">
+<img src="/imager/day08-1.png">
 
 
 
