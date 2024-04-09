@@ -1,0 +1,15 @@
+<h3>Navicat是什麼?</h3>
+Navicat 是一款專業的資料庫管理工具，它提供了直觀的用戶界面和強大的功能，用於設計、開發、管理和維護各種關聯式資料庫，如 MySQL、MariaDB、SQL Server、Oracle、PostgreSQL 和 SQLite 等。Navicat 跨平台運行，支援 Windows、macOS 和 Linux，讓開發人員和資料庫管理人員能夠輕鬆地進行跨資料庫的開發和管理工作。
+
+Navicat官方下載：
+https://www.navicat.com/cht/products
+
+<h3>Navicat連線</h3>
+安裝完成之後，左上角的MySql連線點下去
+<img src="/imager/day28-1.png">
+預設連線是本地，填上資料庫名稱，其他欄位不用修改，就可以按下完成
+<img src="/imager/day28-2.png">
+然後再本地的MySql連線上面建一個新資料庫就完成了～
+<img src="/imager/day28-3.png">
+新建的資料庫記得滑鼠左鍵點兩下讓他變成綠色的開啟狀態喔～
+

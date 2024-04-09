@@ -2,45 +2,31 @@
 MVC 架構是一種軟體設計模式，將應用程式分為三個元件：模型（Model）、視圖（View）、控制器（Controller），以實現程式碼分離、可維護性和可測試性。 模型負責處理資料和業務邏輯，視圖負責顯示使用者介面，控制器負責處理使用者輸入和應用邏輯。
 
 
-<h3>Asp.Net Core Mvc路徑和路由</h3>
-因為我們寫的是ＭＶＣ架構，控制器的邏輯一般來說都是直接出給View，如果是前後端分離架構，控制器輸出的就是json格式了，這裡簡單提一下。
+<h3>控制器（Controller）回傳</h3>
+基本上控制器上面的回傳有三種，回傳View頁面，回傳Json資料和一般的方法回傳
+不管哪種回傳，都需要在方法前面定義要回傳的資料型態
+View頁面和Json資料都是用IActionResult型態來回傳
 
-Asp.Net Core Mvc本身有預設的路徑，假設你的檔案名稱是HomeController.cs，裡面有一個Index方法，那在網頁上的路徑就是/Home/Index這樣
-
-而對應的View就會是在View資料夾下的Home資料夾中的Index.cshtml檔案
-
-另外，控制器的Controller這個名稱是會自動被忽略掉的，他只會取前面的名字，而且控制器檔案在命名的時候一定要加Controller
-
-
-<h3>自訂路由</h3>
-在控制器的class上面或是方法上面加上
-[Route("custom/route")]
-字串內就是你指定的路由
-整體長這樣：
-public class HomeController : Controller
+回傳View頁面
+public IActionResult Privacy()
 {
-   [Route("custom/route")]
-    public IActionResult Index()
-    {
-        return View();
-    }
+    return View();
 }
 
-<h3>自訂視圖</h3>
-如果妳不想按照asp.net core的預設路徑走，也可以自訂view路徑
-範例：
-public class HomeController : Controller
+回傳Json資料
+public IActionResult Privacy()
 {
-    public IActionResult Index()
-    {
-        // 指定使用的視圖名稱
-        return View("CustomViewName");
-
-        // 或者指定視圖路徑
-        // return View("~/Views/CustomFolder/CustomView.cshtml");
-    }
+    var jsonData = new { message = "Privacy policy information" };
+    return Json(jsonData);
 }
 
+
+一般方法回傳
+public string ComputeMD5Hash(string input)
+{
+input = "Hollo Word";
+return input;
+}
 
 
 

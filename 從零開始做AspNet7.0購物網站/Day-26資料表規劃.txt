@@ -1,0 +1,52 @@
+在建立資料庫模型之前，我們先來規劃需要用到哪些資料表
+- User                      // 會員資料表
+    - id
+    - name
+    - password
+
+- Manufacturer              // 賣家資料表
+    - id
+    - name
+    - password
+
+
+- Product                   // 商品資料表
+    - id
+    - name
+    - imager
+    - remarks
+    - number
+    - manufacturer_id
+    - product_class_id
+
+- ProductClass              // 商品分類
+    - id
+    - class_name
+
+- Shop                      // 購物車
+    - id
+    - CreatedAt
+    - user_id
+    - manufacturer_id
+    - product_id
+    - number
+
+- Order                   // 訂單
+    - id
+    - CreatedAt
+    - order_number
+    - adress
+    - phone
+    - price
+    - user_id
+    - manufacturer_id
+    - payment
+
+- Item                   // 訂單下的項目
+    - id
+    - order_id
+    - product_id
+    - product_name
+    - price
+    - user_id
+    - manufacturer_id

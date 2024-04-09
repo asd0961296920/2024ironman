@@ -1,0 +1,37 @@
+<h3>Docker是什麼?</h3>
+Docker 是一個開源的平台，用於開發、部署和運行應用程序。它利用容器化技術，使開發人員能夠將應用程序及其所有相依的軟體套件打包到一個稱為容器的獨立單元中。每個容器都包含應用程序所需的所有代碼、庫、運行時、系統工具和設定，從而實現了應用程序的快速部署和移植性。
+
+這些容器是輕量級、可移植且自包含的，可以在任何支援 Docker 的環境中運行，而無需擔心底層基礎架構的差異。Docker 通常與容器管理工具（如 Kubernetes）一起使用，以實現在大規模生產環境中部署和管理容器化應用程序的能力。
+
+如果有用過xampp的人，基本上Docker跟xampp相似，但是它提供了更多的自由度，可以自由搭配自己所需要的環境和版本
+
+<h3>Docker部署安裝</h3>
+首先我們需要安裝Docker的環境，到官網可以直接下載安裝：
+https://docs-docker-com.translate.goog/desktop/install/windows-install/?_x_tr_sl=zh-CN&_x_tr_tl=zh-TW&_x_tr_hl=zh-TW&_x_tr_pto=sc
+
+Docker只需要裝MySql資料庫就好，因為Asp.net Core本身的環境Visual Studio都有提供
+另外Docker Hub有網路上大家分享的各種Docker配置提供免費下載
+
+Docker Hub：
+https://hub.docker.com/_/mysql
+
+
+<h3>Docker 開始部署</h3>
+接下來我們從網路上拉取官方 mysql 最新映像檔案
+docker pull mysql
+
+檢查映像
+docker images
+確認在列出的映像中有一個名為 mysql 的映像檔。
+
+
+運行 mysql 容器
+docker run --name sql2 -p 3306:3306 -e MYSQL_ROOT_PASSWORD=root -d mysql:8
+
+參數功能：
+
+run : docker 建立 container 並且執行的指令
+--name : 指定容器為 sql2
+-p 3306:3306 : 將容器的 3306 端口映射到主機的 3306 端口。
+-e MYSQL_ROOT_PASSWORD=root : 初始化 root 用戶的密碼為 root。
+-d mysql:8 : 背景執行 MySQL 映像
