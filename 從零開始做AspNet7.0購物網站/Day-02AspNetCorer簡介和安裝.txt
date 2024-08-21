@@ -14,7 +14,7 @@ ASP.NET Core 的出现源于对传统 ASP.NET 框架的改进和演进。在 ASP
 
 ASP.NET Core 是通过对 .NET 平台的演进而来的。它基于 .NET Core，这是一个开源的、跨平台的 .NET 平台实现。与传统的 ASP.NET 框架相比，ASP.NET Core 更加灵活、更具现代化，并且在不同平台上的性能和可部署性都得到了显著的提升。
 
-以上簡介由ChatGpT提供，各位看看就好，不用太在意～
+以上簡介結束，各位看看就好，不用太在意～
 
 ～～～以下開始正文～～～
 要寫ASP.NET Core當然是用Visual Studio，當然你要用VsCode也是可以，不過會比較麻煩，要另外找套件來裝，這裡為了省麻煩直接用Visual Studio Code
